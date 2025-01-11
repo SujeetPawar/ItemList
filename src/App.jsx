@@ -1,14 +1,21 @@
 import React, { useState } from "react";
 
 function App() {
-  const [item, setItem] = useState(""); 
+  const [item, setItem] = useState("");
   const [items, setItems] = useState([]); 
 
+  // Add a new item to the list
   const handleAddItem = () => {
     if (item.trim()) {
-      setItems([...items, item]); 
+      setItems([...items, item]);
       setItem(""); 
     }
+  };
+
+  
+  const handleRemoveItem = (index) => {
+    const updatedItems = items.filter((_, i) => i !== index);
+    setItems(updatedItems); 
   };
 
   return (
@@ -16,7 +23,7 @@ function App() {
       <div className="bg-white rounded-lg shadow-lg w-full max-w-md p-6">
         <h1 className="text-2xl font-semibold text-center mb-4">Item List Manager</h1>
 
-        {/* Input and Button Section can make another component but not need */}
+        {/* Input and Button Section */}
         <div className="flex mb-4">
           <input
             type="text"
@@ -39,7 +46,15 @@ function App() {
         ) : (
           <ul className="list-disc pl-5 space-y-2">
             {items.map((item, index) => (
-              <li key={index} className="text-lg text-gray-800">{item}</li>
+              <li key={index} className="flex justify-between items-center text-lg text-gray-800">
+                <span>{item}</span>
+                <button
+                  onClick={() => handleRemoveItem(index)} // Call remove function with the item index
+                  className="bg-red-500 text-white text-sm px-2 py-1 rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500"
+                >
+                  Remove
+                </button>
+              </li>
             ))}
           </ul>
         )}
